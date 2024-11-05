@@ -25,4 +25,8 @@
     <ProjectReference Include="..\ShoeMania.Common\ShoeMania.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>
