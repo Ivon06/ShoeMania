@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShoeMania.Data\ShoeMania.Data.csproj" />
   </ItemGroup>
 
 </Project>

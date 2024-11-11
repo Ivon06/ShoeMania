@@ -1,17 +1,35 @@
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShoeMania.Data;
+using ShoeMania.Data.Models;
+using ShoeMania.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ShoeManiaDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-	.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureServices();
+
+ConfigureCloudinaryService(builder.Services, builder.Configuration);
+
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 5;
+
+})
+               .AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<ShoeManiaDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -41,3 +59,19 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+static void ConfigureCloudinaryService(IServiceCollection services, IConfiguration configuration)
+{
+
+    var cloudName = configuration.GetValue<string>("AccountSettings:CloudName");
+    var apiKey = configuration.GetValue<string>("AccountSettings:ApiKey");
+    var apiSecret = configuration.GetValue<string>("AccountSettings:ApiSecret");
+
+    if (new[] { cloudName, apiKey, apiSecret }.Any(string.IsNullOrWhiteSpace))
+    {
+        throw new ArgumentException("Please specify your Cloudinary account Information");
+    }
+
+    services.AddSingleton(new Cloudinary(new Account(cloudName, apiKey, apiSecret)));
+}
