@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoeMania.Core.Contracts;
 using ShoeMania.Core.ViewModels.Account;
 using ShoeMania.Data.Models;
-
+using static ShoeMania.Common.NotificationConstants;
 namespace ShoeMania.Controllers
 {
     public class AccountController : Controller
