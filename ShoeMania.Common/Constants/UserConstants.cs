@@ -29,5 +29,8 @@ namespace ShoeMania.Common.Constants
 
 		public const int CountryMaxLength = 56;
 		public const int CountryMinLength = 2;
+
+		public const int PhoneNumberMaxLength = 50;
+		public const int PhoneNumberMinLength = 2;
 	}
 }

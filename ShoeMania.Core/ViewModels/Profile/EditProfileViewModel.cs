@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ShoeMania.Common.Constants.UserConstants;
 
 namespace ShoeMania.Core.ViewModels.Profile
 {
@@ -12,31 +13,31 @@ namespace ShoeMania.Core.ViewModels.Profile
     {
         
             [Required]
-            [StringLength(50, MinimumLength = 3)]
+            [StringLength(FirstnameMaxLength, MinimumLength = FirstNameMinLength)]
             public string FirstName { get; set; } = null!;
 
             [Required]
-            [StringLength(30, MinimumLength = 3)]
+            [StringLength(LastNameMaxLength, MinimumLength = LastNameMinLength)]
             public string LastName { get; set; } = null!;
 
             [Required]
-            [StringLength(30, MinimumLength = 3)]
+            [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
             public string Email { get; set; } = null!;
 
             [Required]
-            [StringLength(200, MinimumLength = 3)]
+            [StringLength(CityMaxLength, MinimumLength = CityMinLength)]
             public string City { get; set; } = null!;
 
             [Required]
-            [StringLength(100, MinimumLength = 3)]
+            [StringLength(CountryMaxLength, MinimumLength = CountryMinLength)]
             public string Country { get; set; } = null!;
 
             [Required]
-            [StringLength(200, MinimumLength = 10)]
+            [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
             public string Address { get; set; } = null!;
 
             [Required]
-            [StringLength(50, MinimumLength = 3)]
+            [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
             public string Phone { get; set; } = null!;
 
             public string? ProfilePictureUrl { get; set; }
