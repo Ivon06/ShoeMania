@@ -92,5 +92,115 @@ namespace ShoeMania.Controllers
 
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string shoeId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                TempData[ErrorMessage] = "Your should be admin to edit shoe";
+                return RedirectToAction("All");
+            }
+
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                TempData[ErrorMessage] = "This shoe does not exist";
+                return RedirectToAction("All");
+            }
+
+            try
+            {
+                var shoe = await shoeService.GetShoeForEditAsync(shoeId);
+
+                return View(shoe);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string shoeId, ShoeFormModel model)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                TempData[ErrorMessage] = "Your should be admin to edit shoe";
+                return RedirectToAction("All");
+            }
+
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                TempData[ErrorMessage] = "This shoe does not exist";
+                return RedirectToAction("All");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+
+
+            await shoeService.EditShoeAsync(model, shoeId);
+
+            TempData[SuccessMessage] = "Successfully edited shoe";
+
+            return RedirectToAction("All");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string shoeId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                TempData[ErrorMessage] = "Your should be admin to edit shoe";
+                return RedirectToAction("All");
+            }
+
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                TempData[ErrorMessage] = "This shoe does not exist";
+                return RedirectToAction("All");
+            }
+
+            var shoe = await shoeService.GetShoeForDeleteAsync(shoeId);
+
+            TempData[WarningMessage] = "If you press the button delete you will delete this shoe";
+            return View(shoe);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string shoeId, PreDeleteShoeViewModel model)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                TempData[ErrorMessage] = "Your should be admin to edit shoe";
+                return RedirectToAction("All");
+            }
+
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                TempData[ErrorMessage] = "This shoe does not exist";
+                return RedirectToAction("All");
+            }
+
+            await shoeService.DeleteShoeAsync(shoeId);
+
+            TempData[SuccessMessage] = "Successfully delete shoe";
+
+            return RedirectToAction("All");
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShoeMania.Data.Repository
 {
-	public class Repository : IRepository
+    public class Repository : IRepository
 	{ 
 		private ShoeManiaDbContext dbContext;
 		public Repository(ShoeManiaDbContext dbContext)
@@ -85,5 +85,17 @@ namespace ShoeMania.Data.Repository
 		{
 			return await this.dbContext.SaveChangesAsync();
 		}
-	}
+
+        public void RemoveRange<T>(IEnumerable<T> entity) where T : class
+        {
+            DbSet<T>().RemoveRange(entity);
+        }
+
+        public IEnumerable<T> All<T>() where T : class
+        {
+            return DbSet<T>().AsEnumerable();
+        }
+
+        
+    }
 }

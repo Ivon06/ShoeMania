@@ -15,7 +15,9 @@ namespace ShoeMania.Core.Contracts
 
         Task<bool> IsExistsAsync(string id);
 
+        Task<ShoeFormModel> GetShoeForEditAsync(string shoeId);
 
-       
+        Task EditShoeAsync(ShoeFormModel shoe, string shoeId);
+
     }
 }

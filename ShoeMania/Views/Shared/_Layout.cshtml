@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FootTrap.Web</title>
+    <title>@ViewData["Title"]</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -23,20 +23,6 @@
 
             <div class="container-fluid">
                 <div class="top_nav_container">
-                    <div class="contact_nav">
-                        <a href="">
-                            <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>
-                                Call : 088 789 8873
-                            </span>
-                        </a>
-                        <a href="">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                            <span>
-                                Email : bohd110205@gmail.com
-                            </span>
-                        </a>
-                    </div>
                     <div class="user_option_box">
                         @if (User.Identity!.IsAuthenticated)
                         {
@@ -80,9 +66,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
                             </li>
-                            @* <li class="nav-item">
-                            <a class="nav-link" href="about.html"> About</a>
-                            </li> *@
+                            
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ShoeMania.Core.Contracts;
+using ShoeMania.Core.ViewModels.Category;
 using ShoeMania.Core.ViewModels.Shoes;
+using ShoeMania.Core.ViewModels.Sizes;
 using ShoeMania.Data;
 using ShoeMania.Data.Models;
 using ShoeMania.Data.Repository;
@@ -98,5 +100,94 @@ namespace ShoeMania.Core.Services
         {
             return await repo.GetAll<Shoe>().AnyAsync(sho => sho.Id == id);
         }
+
+        public async Task<ShoeFormModel> GetShoeForEditAsync(string shoeId)
+        {
+            var shoe = await repo.GetAll<Shoe>()
+                 .Where(sh => sh.Id == shoeId)
+                 .Select(sh => new ShoeFormModel()
+                 {
+                     Name = sh.Name,
+                     Description = sh.Description,
+                     Price = sh.Price.ToString(),
+
+                 })
+                 .FirstOrDefaultAsync();
+
+            if (shoe == null)
+            {
+                return null;
+            }
+
+
+            shoe!.Sizes = await repo.GetAll<Size>()
+                .Select(s => new SizeViewModel()
+                {
+                    Id = s.Id,
+                    Number = s.Number,
+                })
+                .ToListAsync();
+
+            shoe.Categories = await repo.GetAll<Category>()
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToListAsync();
+
+            return shoe;
+        }
+
+        public async Task EditShoeAsync(ShoeFormModel shoe, string shoeId)
+        {
+            var model = await repo.GetAll<Shoe>()
+                .Include(s => s.SizeShoe)
+                .FirstOrDefaultAsync(sh => sh.Id == shoeId);
+
+            if (model == null)
+            {
+                return;
+            }
+
+            model.Name = shoe.Name;
+            model.Description = shoe.Description;
+            model.Price = Decimal.Parse(shoe.Price);
+
+            if (shoe.ShoeUrlImage != null)
+            {
+                model.ShoeUrlImage = await imageService.UploadImageToShoe(shoe.ShoeUrlImage!, "FootTrapProject", model);
+            }
+
+            if (shoe.CategoryId != null)
+            {
+                model.CategoryId = shoe.CategoryId;
+            }
+
+            List<SizeShoe> sizes = new List<SizeShoe>();
+
+            if (shoe.SizeIds.Count() != 0)
+            {
+                foreach (var size in shoe.SizeIds)
+                {
+                    SizeShoe sz = new SizeShoe()
+                    {
+                        ShoeId = shoeId,
+                        SizeId = size
+                    };
+
+                    sizes.Add(sz);
+                }
+
+                repo.RemoveRange(model.SizeShoe);
+            }
+
+            await repo.AddRangeAsync(sizes);
+
+            await repo.SaveChangesAsync();
+
+        }
+
+
     }
 }

@@ -10,6 +10,8 @@ namespace ShoeMania.Data.Repository
 	{
 		IQueryable<T> GetAll<T>() where T : class;
 
+		IEnumerable<T> All<T>() where T : class;
+
 		T? GetById<T>(string id) where T : class;
 
 		Task<T?> GetByIdAsync<T>(string id) where T : class;
@@ -24,6 +26,7 @@ namespace ShoeMania.Data.Repository
 
 		void Update<T>(string id, T entity) where T : class;
 
+		void RemoveRange<T>(IEnumerable<T> entity)	where T : class;
 
 		Task DeleteAsync<T>(string id) where T : class;
 

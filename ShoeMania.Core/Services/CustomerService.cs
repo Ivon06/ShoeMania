@@ -13,7 +13,7 @@ namespace ShoeMania.Core.Services
 {
     public class CustomerService : ICustomerService
     {
-        //private readonly ShoeManiaDbContext context;
+        
         private readonly IRepository repo;
 
         public CustomerService(IRepository repo)
