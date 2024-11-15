@@ -19,5 +19,9 @@ namespace ShoeMania.Core.Contracts
 
         Task EditShoeAsync(ShoeFormModel shoe, string shoeId);
 
+        Task<PreDeleteShoeViewModel> GetShoeForDeleteAsync(string shoeId);
+
+        Task DeleteShoeAsync(string shoeId);
+
     }
 }

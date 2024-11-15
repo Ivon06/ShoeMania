@@ -1,0 +1,35 @@
+﻿@using ShoeMania.Core.ViewModels.Shoes
+@model PreDeleteShoeViewModel
+
+
+<div class="container-shoe">
+    <div class="imgBx">
+        <img src="@Model.ShoePictureUrl" height="400px" alt="Nike Jordan Proto-Lyte Image">
+    </div>
+    <div class="details">
+        <div class="content">
+
+            <h2>
+                @Model.Name <br>
+                <span>@Model.Category</span>
+            </h2>
+
+            <p>
+                @Model.Description
+            </p>
+
+            <form id="delete-form" method="post">
+                <input type="hidden" value="@Model.Id" value="@Model.Id" />
+                <h3>$ @Model.Price</h3>
+                <br />
+                <a href="javascript:{}" onclick="document.getElementById('delete-form').submit()" style="margin-top: 4rem; background: red;">Delete</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/detailsShoe.css" asp-append-version="true" />
+
+}

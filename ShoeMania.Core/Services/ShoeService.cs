@@ -188,6 +188,44 @@ namespace ShoeMania.Core.Services
 
         }
 
+        public async Task<PreDeleteShoeViewModel> GetShoeForDeleteAsync(string shoeId)
+        {
+            var model = await repo.GetAll<Shoe>()
+                .Include(sh => sh.Category)
+                .FirstOrDefaultAsync(sh => sh.Id == shoeId);
 
+            if (model == null)
+            {
+                return null;
+            }
+
+            PreDeleteShoeViewModel shoe = new PreDeleteShoeViewModel()
+            {
+                Id = shoeId,
+                Name = model.Name,
+                Category = model.Category.Name,
+                Description = model.Description,
+                Price = model.Price,
+                ShoePictureUrl = model.ShoeUrlImage
+            };
+
+            return shoe;
+
+        }
+
+        public async Task DeleteShoeAsync(string shoeId)
+        {
+            var shoe = await repo.GetAll<Shoe>()
+                .FirstOrDefaultAsync(sh => sh.Id == shoeId);
+
+            if (shoe == null)
+            {
+                return;
+            }
+
+            shoe.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
     }
 }

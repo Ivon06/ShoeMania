@@ -30,7 +30,7 @@
                 <span asp-validation-for="@Model.Price" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <select asp-for="SizeIds" data-placeholder="Размери" multiple class="form-control chosen-select choices-multiple-remove-button">
+                <select asp-for="SizeIds" data-placeholder="Sizes" multiple class="form-control chosen-select choices-multiple-remove-button">
                     @foreach (var a in Model.Sizes)
                     {
                         <option value="@a.Id">@a.Number</option>
@@ -49,12 +49,12 @@
                 <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label for="dishPicture" class="text-light">Upload Dish Picture</label>
+                <label for="dishPicture" class="text-light">Upload Shoe Picture</label>
                 <input asp-for="ShoeUrlImage" accept="image/gif, image/jpeg, image/png" class="text-black" id="dishPicture">
                 <span asp-validation-for="ShoeUrlImage" class="text-black"></span>
             </div>
             <div class="mb-3">
-                <img alt="Uploaded Image" placeholder="Upload Dish Picture" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                <img alt="Uploaded Image" placeholder="Upload Shoe Picture" accept="image/gif, image/jpeg, image/png" style="display:none;">
             </div>
             <div class="mb-3">
                 <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Edit" />
