@@ -202,5 +202,24 @@ namespace ShoeMania.Controllers
 
             return RedirectToAction("All");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            bool isExists = await shoeService.IsExistsAsync(id);
+            if (!isExists)
+            {
+                return RedirectToAction("All");
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var model = await shoeService.GetDetailsForShoeAsync(id);
+
+            return View(model);
+        }
     }
 }

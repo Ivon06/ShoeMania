@@ -23,5 +23,7 @@ namespace ShoeMania.Core.Contracts
 
         Task DeleteShoeAsync(string shoeId);
 
+        Task<DetailsShoeViewModel> GetDetailsForShoeAsync(string shoeId);
+
     }
 }

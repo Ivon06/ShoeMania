@@ -26,7 +26,7 @@ body {
         width: 50%;
         height: 100%;
         background: #212121;
-        
+        /* transition: .3s linear; */
     }
 
         .container-shoe .imgBx:before {
@@ -42,7 +42,7 @@ body {
         .container-shoe .imgBx img {
             position: relative;
             width: 700px;
-          
+            /* transform: rotate(-30deg); */
             left: -50px;
             transition: .9s linear;
         }
@@ -160,7 +160,7 @@ body {
             .container-shoe .imgBx img {
                 left: initial;
                 max-width: 100%;
-                
+                /* transform: rotate(0deg); */
             }
 
     .details {
@@ -175,4 +175,15 @@ body {
     }
 }
 
+/*footer {
+    position: fixed;
+    right: 16px;
+    bottom: 12px;
+}
 
+    footer a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 12px;
+    }
+*/

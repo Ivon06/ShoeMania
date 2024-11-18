@@ -227,5 +227,40 @@ namespace ShoeMania.Core.Services
 
             await repo.SaveChangesAsync();
         }
+
+        public async Task<DetailsShoeViewModel> GetDetailsForShoeAsync(string shoeId)
+        {
+            var shoe = await repo.GetAll<Shoe>()
+                .Include(sh => sh.Category)
+                .Include(sh => sh.SizeShoe)
+                .Where(sh => sh.Id == shoeId)
+                .Select(sh => new DetailsShoeViewModel()
+                {
+                    Id = shoeId,
+                    Name = sh.Name,
+                    Description = sh.Description,
+                    Price = sh.Price,
+                    Category = sh.Category.Name,
+                    Sizes = sh.SizeShoe.Select(s => new SizeViewModel()
+                    {
+                        Id = s.Size.Id,
+                        Number = s.Size.Number
+                    })
+                    .ToList(),
+                    ShoePictureUrl = sh.ShoeUrlImage
+
+                })
+                .FirstOrDefaultAsync();
+
+            if (shoe == null)
+            {
+                return null;
+            }
+
+            return shoe;
+
+
+        }
+
     }
 }
