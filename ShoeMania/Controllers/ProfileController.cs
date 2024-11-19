@@ -86,5 +86,7 @@ namespace ShoeMania.Controllers
 
             return RedirectToAction("MyProfile", new { userId });
         }
+
+        
     }
 }

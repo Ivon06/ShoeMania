@@ -32,6 +32,11 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(15);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,10 +51,16 @@ else
 	app.UseHsts();
 }
 
+app.UseSession();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseCors();
+
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

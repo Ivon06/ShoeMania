@@ -1,0 +1,54 @@
+﻿@using ShoeMania.Core.ViewModels.Shoes
+@model ShoeFormModel
+
+
+<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="@Model.Name" class="form-label-add-edit text-light">Name</label>
+            <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="@Model.Description" class="form-label-add-edit text-light">Description</label>
+            <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="@Model.Price" class="form-label-add-edit text-light">Price</label>
+            <input asp-for="@Model.Price" class="form-control" aria-required="true" placeholde="Price" />
+            <span asp-validation-for="@Model.Price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <select asp-for="SizeIds" data-placeholder="Размери" multiple class="form-control chosen-select choices-multiple-remove-button">
+                @foreach (var a in Model.Sizes)
+                {
+                    <option value="@a.Id">@a.Number</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="@Model.CategoryId" class="form-label-add-edit text-light">Category</label>
+            <select asp-for="@Model.CategoryId" class="form-control" aria-required="true">
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label  class="text-light">Upload Shoe Picture</label>
+            <input asp-for="ShoeUrlImage" accept="image/gif, image/jpeg, image/png" class="text-black" id="shoePicture">
+            <span asp-validation-for="ShoeUrlImage" class="text-black"></span>
+        </div>
+        <div class="mb-3">
+            <img alt="Uploaded Image" placeholder="Upload Shoe Picture" accept="image/gif, image/jpeg, image/png" style="display:none;">
+        </div>
+        <div class="mb-3">
+            <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Save" />
+        </div>
+    </form>
+</div>
