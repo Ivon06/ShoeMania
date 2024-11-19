@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ShoeMania.Data.Configurations;
 using ShoeMania.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -48,6 +50,8 @@ namespace ShoeMania.Data
 				.HasKey(os => new { os.OrderId, os.ShoeId });
 			builder.Entity<SizeShoe>()
 				.HasKey(os => new { os.SizeId, os.ShoeId });
+
+			builder.ApplyConfiguration<IdentityRole>(new RolesConfiguration());
 
 			base.OnModelCreating(builder);
 		}

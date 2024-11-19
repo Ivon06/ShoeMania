@@ -25,5 +25,11 @@ namespace ShoeMania.Core.Contracts
 
         Task<DetailsShoeViewModel> GetDetailsForShoeAsync(string shoeId);
 
+        List<OrderShoeViewModel>? GetCartShoes(string username);
+
+        Task<OrderShoeViewModel> GetShoeForOrderAsync(string shoeId, int size);
+
+        Task AddShoeToCart(string username, string shoeId, int size);
+
     }
 }

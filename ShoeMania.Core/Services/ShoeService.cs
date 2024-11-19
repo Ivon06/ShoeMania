@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ShoeMania.Core.Contracts;
+using ShoeMania.Core.Extensions;
 using ShoeMania.Core.ViewModels.Category;
 using ShoeMania.Core.ViewModels.Shoes;
 using ShoeMania.Core.ViewModels.Sizes;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace ShoeMania.Core.Services
 {
@@ -259,6 +261,54 @@ namespace ShoeMania.Core.Services
 
             return shoe;
 
+
+        }
+
+        public List<OrderShoeViewModel>? GetCartShoes(string username)
+        {
+            return accessor.HttpContext.Session.GetObjectFromJson<List<OrderShoeViewModel>>($"cart{username}");
+        }
+
+        public async Task AddShoeToCart(string username, string shoeId, int size)
+        {
+            if (accessor.HttpContext.Session.GetObjectFromJson<List<OrderShoeViewModel>>($"cart{username}") == null)
+            {
+                var shoe = await GetShoeForOrderAsync(shoeId, size);
+                List<OrderShoeViewModel> cart = new List<OrderShoeViewModel>();
+                cart.Add(shoe);
+                accessor.HttpContext.Session.SetObjectAsJson($"cart{username}", cart);
+            }
+            else
+            {
+                List<OrderShoeViewModel>? cart = accessor.HttpContext.Session.GetObjectFromJson<List<OrderShoeViewModel>>($"cart{username}");
+                var shoe = await this.GetShoeForOrderAsync(shoeId, size);
+                cart!.Add(shoe);
+                accessor.HttpContext.Session.SetObjectAsJson($"cart{username}", cart);
+            }
+        }
+
+        public async Task<OrderShoeViewModel> GetShoeForOrderAsync(string shoeId, int size)
+        {
+            var shoe = await repo.GetAll<Shoe>()
+                .Select(shoe => new OrderShoeViewModel()
+                {
+                    Id = shoe.Id,
+                    Name = shoe.Name,
+                    Description = shoe.Description,
+                    Price = shoe.Price,
+                    Size = size,
+                    ShoeImageUrl = shoe.ShoeUrlImage,
+                    IsEnabled = true,
+
+                })
+                .FirstOrDefaultAsync(shoe => shoe.Id == shoeId);
+
+            if (shoe == null)
+            {
+                return null;
+            }
+
+            return shoe!;
 
         }
 

@@ -221,5 +221,50 @@ namespace ShoeMania.Controllers
 
             return View(model);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Cart()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (!User.Identity!.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            string? userName = User.GetUsername();
+            var cartShoes = shoeService.GetCartShoes(userName!);
+
+            return await Task.Run(() => View(cartShoes));
+
+        }
+
+        public async Task<IActionResult> AddToCart(DetailsShoeViewModel model)
+        {
+            string shoeId = model.Id;
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                return RedirectToAction("All");
+            }
+
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string userName = User.GetUsername()!;
+            await shoeService.AddShoeToCart(userName, shoeId, model.Size);
+
+            TempData[SuccessMessage] = "Successfully added to cart";
+
+            return RedirectToAction("Cart");
+
+
+        }
     }
 }

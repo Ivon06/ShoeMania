@@ -1,0 +1,24 @@
+﻿@using ShoeMania.Core.ViewModels.Shoes
+@model OrderShoeViewModel
+
+<div class="product">
+    <div class="product-image" style="text-align: left">
+        <img src="@Model.ShoeImageUrl">
+    </div>
+    <div class="product-details">
+        <div class="product-title">@Model.Name</div>
+        
+    </div>
+    <div class="product-price">@Model.Price</div>
+    <div class="product-quantity">
+        @Model.Size
+    </div>
+    <div class="product-removal">
+        <a asp-action="RemoveFromCart" asp-controller="Shoes" asp-route-shoeId="@Model.Id" class="remove-product">
+            Remove
+        </a>
+
+        <input asp-for="Id" type="hidden" id="dishId" class="ids" value="@Model.Id" />
+    </div>
+</div>
+
