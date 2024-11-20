@@ -11,8 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ShoeManiaDbContext>(options =>
-	options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.ConfigureServices();
@@ -29,19 +31,20 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.Password.RequiredLength = 5;
 
 })
-               .AddRoles<IdentityRole>()
-               .AddEntityFrameworkStores<ShoeManiaDbContext>();
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<ShoeManiaDbContext>();
 
 
 builder.Services
-              .AddControllersWithViews(options =>
-              {
-                  options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-              })
-              .AddMvcOptions(options =>
-              {
-                  options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
-              });
+    .AddControllersWithViews(options =>
+    {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    })
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+    });
+
 
 builder.Services.AddSession(options =>
 {
@@ -53,13 +56,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseMigrationsEndPoint();
+    app.UseMigrationsEndPoint();
 }
 else
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 
@@ -78,31 +81,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "Areas",
-        pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
 
+app.MapAreaControllerRoute(
+    name: "Admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapControllerRoute(
-        name: "Default",
-        pattern: "/{controller=Home}/{action=Index}/{id?}",
-        defaults: new { Controller = "Home", Action = "Index" }
-    );
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
-    endpoints.MapDefaultControllerRoute();
-    endpoints.MapRazorPages();
-
-
-});
-
-
-//app.MapControllerRoute(
-//	name: "default",
-//	pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

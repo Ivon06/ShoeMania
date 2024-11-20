@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoeMania.Core.Contracts;
 using ShoeMania.Core.ViewModels.Account;
@@ -24,6 +25,7 @@ namespace ShoeMania.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Register()
         {
             RegisterViewModel model = new RegisterViewModel();
@@ -31,6 +33,7 @@ namespace ShoeMania.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (await userService.ExistsByEmailAsync(model.Email))
@@ -93,6 +96,7 @@ namespace ShoeMania.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             var model = new LoginViewModel();
@@ -100,6 +104,7 @@ namespace ShoeMania.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)

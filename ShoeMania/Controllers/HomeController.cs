@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ShoeMania.Controllers
 {
-	public class HomeController : BaseController
+	public class HomeController : Controller
     {
 		private readonly ILogger<HomeController> _logger;
 
@@ -15,8 +15,12 @@ namespace ShoeMania.Controllers
 
 		public IActionResult Index()
 		{
-			return View();
-		}
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home", new { Area = "Admin" });
+            }
+            return View();
+        }
 
 		public IActionResult Privacy()
 		{
