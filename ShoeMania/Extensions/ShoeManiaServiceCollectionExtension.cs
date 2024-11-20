@@ -19,6 +19,7 @@ namespace ShoeMania.Extensions
 			services.AddScoped<IShoeService,ShoeService>();
 			services.AddScoped<IProfileService, ProfileService>();
 			services.AddScoped<IOrderService, OrderService>();
+			services.AddScoped<IPaymentService, PaymentService>();
 
 			return services;
 		}

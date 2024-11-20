@@ -13,14 +13,15 @@ namespace ShoeMania.Controllers
         private readonly IShoeService shoeService;
         private readonly ICustomerService customerService;
         private readonly IOrderService orderService;
-       
-        public OrderController(IUserService userService, IShoeService shoeService, ICustomerService customerService, IOrderService orderService )
+        private readonly IPaymentService paymentService;
+
+        public OrderController(IUserService userService, IShoeService shoeService, ICustomerService customerService, IOrderService orderService, IPaymentService paymentService)
         {
             this.userService = userService;
             this.shoeService = shoeService;
             this.customerService = customerService;
             this.orderService = orderService;
-            
+            this.paymentService = paymentService;
         }
 
         [HttpGet]

@@ -1,4 +1,5 @@
 ﻿using ShoeMania.Core.ViewModels.Shoes;
+using ShoeMania.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace ShoeMania.Core.ViewModels.Order
         public OrderFormModel()
         {
             this.Shoes = new List<OrderShoeViewModel>();
+            this.Offices = new List<DeliveryOffice>();
         }
         //[Required]
         //[StringLength(100, MinimumLength = 5)]
@@ -28,5 +30,7 @@ namespace ShoeMania.Core.ViewModels.Order
         public ICollection<OrderShoeViewModel> Shoes { get; set; }
 
         public string PaymentId { get; set; }
+
+        public ICollection<DeliveryOffice> Offices { get; set; }
     }
 }
