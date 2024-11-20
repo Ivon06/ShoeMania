@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShoeMania.Common\ShoeMania.Common.csproj" />
     <ProjectReference Include="..\ShoeMania.Data\ShoeMania.Data.csproj" />
   </ItemGroup>
 

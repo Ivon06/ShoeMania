@@ -21,7 +21,7 @@
             <span asp-validation-for="@Model.Price" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <select asp-for="SizeIds" data-placeholder="Размери" multiple class="form-control chosen-select choices-multiple-remove-button">
+            <select asp-for="SizeIds" data-placeholder="Sizes" multiple class="form-control chosen-select choices-multiple-remove-button">
                 @foreach (var a in Model.Sizes)
                 {
                     <option value="@a.Id">@a.Number</option>

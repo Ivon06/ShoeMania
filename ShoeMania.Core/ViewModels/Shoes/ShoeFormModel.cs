@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ShoeMania.Common.Constants.ShoeConstants;
 
 namespace ShoeMania.Core.ViewModels.Shoes
 {
@@ -20,10 +21,10 @@ namespace ShoeMania.Core.ViewModels.Shoes
             this.SizeIds = new List<int>();
         }
 
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(ShoeNameMaxLength, MinimumLength = ShoeNameMinLength)]
         public string Name { get; set; } = null!;
 
-        [StringLength(250, MinimumLength = 10)]
+        [StringLength(ShoeDescriptionMaxLength, MinimumLength = ShoeDescriptionMinLength)]
         public string Description { get; set; } = null!;
 
         [Precision(18, 2)]

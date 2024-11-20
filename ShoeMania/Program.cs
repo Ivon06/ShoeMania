@@ -1,9 +1,11 @@
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShoeMania.Data;
 using ShoeMania.Data.Models;
 using ShoeMania.Extensions;
+using ShoeMania.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +32,16 @@ builder.Services.AddDefaultIdentity<User>(options =>
                .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ShoeManiaDbContext>();
 
-builder.Services.AddControllersWithViews();
+
+builder.Services
+              .AddControllersWithViews(options =>
+              {
+                  options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+              })
+              .AddMvcOptions(options =>
+              {
+                  options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+              });
 
 builder.Services.AddSession(options =>
 {
@@ -51,6 +62,8 @@ else
 	app.UseHsts();
 }
 
+
+
 app.UseSession();
 
 app.UseHttpsRedirection();
@@ -64,9 +77,32 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "Areas",
+        pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+
+    endpoints.MapControllerRoute(
+        name: "Default",
+        pattern: "/{controller=Home}/{action=Index}/{id?}",
+        defaults: new { Controller = "Home", Action = "Index" }
+    );
+
+
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+
+
+});
+
+
+//app.MapControllerRoute(
+//	name: "default",
+//	pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

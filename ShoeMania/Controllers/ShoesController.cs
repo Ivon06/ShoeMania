@@ -7,7 +7,7 @@ using static ShoeMania.Common.NotificationConstants;
 
 namespace ShoeMania.Controllers
 {
-    public class ShoesController : Controller
+    public class ShoesController : BaseController
     {
         private readonly IShoeService shoeService;
         private readonly IUserService userService;

@@ -6,7 +6,7 @@ using ShoeMania.Data.Models;
 using static ShoeMania.Common.NotificationConstants;
 namespace ShoeMania.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;

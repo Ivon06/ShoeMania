@@ -6,7 +6,7 @@ using static ShoeMania.Common.NotificationConstants;
 
 namespace ShoeMania.Controllers
 {
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
 
         private readonly IProfileService profileService;
