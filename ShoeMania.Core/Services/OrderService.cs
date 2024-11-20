@@ -16,10 +16,7 @@ namespace ShoeMania.Core.Services
     {
         private readonly IRepository repo;
 
-        public OrderService()
-        {
-        }
-
+       
         public OrderService(IRepository repo)
         {
             this.repo = repo;
