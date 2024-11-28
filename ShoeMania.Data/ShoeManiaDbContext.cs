@@ -52,6 +52,8 @@ namespace ShoeMania.Data
 				.HasKey(os => new { os.SizeId, os.ShoeId });
 
 			builder.ApplyConfiguration<IdentityRole>(new RolesConfiguration());
+			builder.ApplyConfiguration(new UserConfiguration());
+			builder.ApplyConfiguration(new UserRoleConfiguration());
 
 			base.OnModelCreating(builder);
 		}

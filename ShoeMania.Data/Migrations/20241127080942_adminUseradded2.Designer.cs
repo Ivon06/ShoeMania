@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeMania.Data;
 
@@ -11,9 +12,11 @@ using ShoeMania.Data;
 namespace ShoeMania.Data.Migrations
 {
     [DbContext(typeof(ShoeManiaDbContext))]
-    partial class ShoeManiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127080942_adminUseradded2")]
+    partial class adminUseradded2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,7 +508,7 @@ namespace ShoeMania.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "ul. Stefan Stambolov 20",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "2017511c-fc0d-4f2f-8ad4-47e8166af9b6",
+                            ConcurrencyStamp = "1ee313c2-2e26-4ec5-bebc-615e68a1246e",
                             Country = "Bulgaria",
                             Email = "ivonmircheva2@gmail.com",
                             EmailConfirmed = false,
@@ -514,13 +517,13 @@ namespace ShoeMania.Data.Migrations
                             LastName = "Mircheva",
                             LockoutEnabled = false,
                             NormalizedEmail = "IVONMIRCHEVA2@GMAIL.COM",
-                            NormalizedUserName = "IVON06",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJywCUN5BsyWtFqCrzY0EzKjGN7Vdb1GVatKTfkOYLGsYcRTlghIBMkR+61eDC7KUA==",
+                            NormalizedUserName = "IVON",
+                            PasswordHash = "AQAAAAIAAYagAAAAELDcnC95l01Ve2Va3GOw9tjqWolBmcwfwVaNNwRRhAfvd8QLiqAwsyzMt4lJJsA/Tg==",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607775/FootTrapProject/2150771123_oytfrj.jpg",
-                            SecurityStamp = "5bd4f05e-f997-460b-88ce-a65a5bb8560c",
+                            SecurityStamp = "c09f8686-d762-47f5-8b8d-3ea8acef8751",
                             TwoFactorEnabled = false,
-                            UserName = "Ivon06"
+                            UserName = "Ivon"
                         });
                 });
 

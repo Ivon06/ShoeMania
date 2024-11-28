@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeMania.Data;
 
@@ -11,9 +12,11 @@ using ShoeMania.Data;
 namespace ShoeMania.Data.Migrations
 {
     [DbContext(typeof(ShoeManiaDbContext))]
-    partial class ShoeManiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127080800_adminUseradded")]
+    partial class adminUseradded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,13 +153,6 @@ namespace ShoeMania.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "03ef4003-e7c0-3a14-9f7a-3c7e7as25gd3",
-                            RoleId = "835c8458-e8b7-493f-9c13-67bfcd7316a3"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -497,31 +493,6 @@ namespace ShoeMania.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "03ef4003-e7c0-3a14-9f7a-3c7e7as25gd3",
-                            AccessFailedCount = 0,
-                            Address = "ul. Stefan Stambolov 20",
-                            City = "Kazanlak",
-                            ConcurrencyStamp = "2017511c-fc0d-4f2f-8ad4-47e8166af9b6",
-                            Country = "Bulgaria",
-                            Email = "ivonmircheva2@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Ivon",
-                            IsActive = true,
-                            LastName = "Mircheva",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "IVONMIRCHEVA2@GMAIL.COM",
-                            NormalizedUserName = "IVON06",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJywCUN5BsyWtFqCrzY0EzKjGN7Vdb1GVatKTfkOYLGsYcRTlghIBMkR+61eDC7KUA==",
-                            PhoneNumberConfirmed = false,
-                            ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607775/FootTrapProject/2150771123_oytfrj.jpg",
-                            SecurityStamp = "5bd4f05e-f997-460b-88ce-a65a5bb8560c",
-                            TwoFactorEnabled = false,
-                            UserName = "Ivon06"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

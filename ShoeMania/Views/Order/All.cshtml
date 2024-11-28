@@ -1,0 +1,79 @@
+﻿@using ShoeMania.Data.Models.Enums
+@using ShoeMania.Core.ViewModels.Order
+@model List<OrderViewModel>
+
+
+
+<h2 class="text-center text-black mt-3"> My Orders </h2>
+
+@if (Model.Count > 0)
+{
+    <div class="row" style="margin-left: 20px; margin-bottom: 100px;">
+
+        @foreach (var order in Model)
+        {
+            <div class="col-md-4">
+                <div class="card dish-card">
+                    <div class="card-body">
+                        <p class="card-text text-black">Address: @order.DeliveryAddress</p>
+                        <p class="card-ingredients text-black">OrderTime: @order.OrderTime</p>
+                        @if (order.DeliveryTime != "" && order.DeliveryTime != string.Empty)
+                        {
+                            <p class="card-ingredients text-black">DeliveryTime: @order.DeliveryTime</p>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <p class="card-ingredients text-black">Customer Phone number: @order.CustomerPhoneNumber</p>
+                        }
+                        <p class="card-text text-yellow">Status: @order.Status</p>
+                        <ul class="list-group">
+                            @foreach (var shoe in order.Shoes)
+                            {
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @shoe.Name
+                                    <span class="badge badge-info rounded-pill text-black"> Size: @shoe.Size</span>
+                                </li>
+
+                            }
+                        </ul>
+                        <p class="card-price text-black mt-2"> @order.Price лв.</p>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            if (order.Status == OrderStatusEnum.Waiting.ToString())
+                            {
+                                <a class="btn btn-success" asp-action="Accept" asp-controller="Order" asp-route-orderId="@order.Id">Confirm</a>
+                            }
+                            else if (order.Status == OrderStatusEnum.Confirmed.ToString())
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-info" asp-action="Send" asp-controller="Order" asp-route-orderId="@order.Id">Send</a>
+                                    <a class="btn btn-warning" asp-action="Edit" asp-controller="Order" asp-route-orderId="@order.Id">Edit</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a class="btn btn-light" asp-action="DeliverOrder" asp-controller="Order" asp-route-orderId="@order.Id">Delivered</a>
+                            }
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+}
+else
+{
+    <h2 class="text-black text-center" style="margin-top: 6rem; margin-bottom: 6rem;">You don't have any orders yet!</h2>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shoes.css" asp-append-version="true" />
+}
