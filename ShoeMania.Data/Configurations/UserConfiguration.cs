@@ -40,6 +40,23 @@ namespace ShoeMania.Data.Configurations
             user.PasswordHash = passHasher.HashPassword(user, "123456");
             users.Add(user);
 
+            var user2 = new User()
+            {
+                Id = "hdef4003-e7cp-3e14-wk7a-3ci37aso5gd3",
+                FirstName = "Georgi",
+                LastName = "Ivanov",
+                Email = "georgiivanov@gmail.com",
+                NormalizedEmail = "GEORGIIVANOV@GMAIL.COM",
+                UserName = "Gosho",
+                NormalizedUserName = "GOSHO",
+                City = "Kazanlak",
+                Country = "Bulgaria",
+                Address = "ul. Kokiche 14",
+                ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607775/FootTrapProject/2150771123_oytfrj.jpg"
+            };
+
+            user2.PasswordHash = passHasher.HashPassword(user2, "123456");
+            users.Add(user2);
 
             return users;
         }

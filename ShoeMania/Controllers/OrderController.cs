@@ -10,6 +10,9 @@ namespace ShoeMania.Controllers
 {
     public class OrderController : BaseController
     {
+		private string url = "https://api.speedy.bg/v1/location/office";
+	
+
         private readonly IUserService userService;
         private readonly IShoeService shoeService;
         private readonly ICustomerService customerService;
@@ -107,27 +110,7 @@ namespace ShoeMania.Controllers
 			}
 
 		}
-		public async Task<IActionResult> AdminOrders()
-		{
-			if (!User.IsInRole("Admin"))
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-			try
-			{
-
-				var orders = await orderService.GetAllOrdersAsync();
-
-				return View("All", orders);
-
-			}
-			catch (Exception)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-		}
+		
 
 		[HttpGet]
 		public async Task<IActionResult> Accept(string orderId)

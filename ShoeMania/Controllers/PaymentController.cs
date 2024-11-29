@@ -6,7 +6,7 @@ using static ShoeMania.Common.NotificationConstants;
 
 namespace ShoeMania.Controllers
 {
-	public class PaymentController : Controller
+	public class PaymentController : BaseController
 	{
 		private readonly IUserService userService;
 		private readonly IPaymentService paymentService;

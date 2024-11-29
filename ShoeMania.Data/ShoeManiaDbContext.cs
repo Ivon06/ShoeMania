@@ -54,8 +54,11 @@ namespace ShoeMania.Data
 			builder.ApplyConfiguration<IdentityRole>(new RolesConfiguration());
 			builder.ApplyConfiguration(new UserConfiguration());
 			builder.ApplyConfiguration(new UserRoleConfiguration());
+            builder.ApplyConfiguration(new SizeConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new CustomerConfiguration());
 
-			base.OnModelCreating(builder);
+            base.OnModelCreating(builder);
 		}
 	}
 }
