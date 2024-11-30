@@ -8,9 +8,6 @@ namespace ShoeMania.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class BaseController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
     }
 }
