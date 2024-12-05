@@ -1,4 +1,6 @@
 ﻿@using ShoeMania.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,7 +72,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Shoes" asp-action="All">Products</a>
+                                    <a class="nav-link" asp-area="Admin" asp-controller="Shoe" asp-action="All">Products</a>
                                 </li>
                             }
 
@@ -78,17 +80,17 @@
                                 <a class="nav-link" asp-action="WhyUs" asp-controller="Home">Why Us</a>
                             </li>
 
-                           
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="Add" asp-controller="Shoes">Add Product</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="AdminOrders" asp-controller="Order">My Orders</a>
-                                </li>
 
-                            
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-action="Add" asp-controller="Shoe">Add Product</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-action="AdminOrders" asp-controller="Order">My Orders</a>
+                            </li>
 
-                            
+
+
+
                         </ul>
                         <partial name="_LoginPartial" />
                     </div>
@@ -166,18 +168,18 @@
                             </button>
                         </form>
                         @* <div class="social_box">
-                            <a href="">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a href="">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </a>
-                            <a href="">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                            <a href="">
-                                <i class="fa fa-youtube" aria-hidden="true"></i>
-                            </a>
+                        <a href="">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="">
+                        <i class="fa fa-youtube" aria-hidden="true"></i>
+                        </a>
                         </div> *@
                     </div>
                 </div>

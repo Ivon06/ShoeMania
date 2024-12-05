@@ -3,15 +3,12 @@
 *, body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    /*-webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;*/
+   
 }
 
 html, body {
     height: 100%;
-    /*background-color: coral;*/
-    /*overflow: hidden;*/
+   
 }
 
 
@@ -22,7 +19,7 @@ html, body {
     align-items: center;
     text-align: center;
     min-height: 100vh;
-    background: url(../img/shoe-bg.jpg);
+    background: url(../img/shoe1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

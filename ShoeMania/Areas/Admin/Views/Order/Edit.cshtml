@@ -15,12 +15,12 @@
             <p class="card-text text-yellow">@Model.Status</p>
             <input type="hidden" asp-for="Status" value="@Model.Status" />
             <ul class="list-group">
-                @foreach (var dish in Model.Shoes)
+                @foreach (var shoe in Model.Shoes)
                 {
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        @dish.Name
-                        <span class="badge bg-light rounded-pill text-black"> Size: @dish.Size</span>
+                        @shoe.Name
+                        <span class="badge bg-light rounded-pill text-black"> Size: @shoe.Size</span>
                     </li>
 
                 }

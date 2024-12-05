@@ -57,6 +57,7 @@ namespace ShoeMania.Data
             builder.ApplyConfiguration(new SizeConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
+			builder.ApplyConfiguration(new DeliveryOfficeConfiguration());
 
             base.OnModelCreating(builder);
 		}

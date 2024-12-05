@@ -24,12 +24,17 @@
     <div class="form-group" style="margin-left: 3rem;width: 90%">
        
         <div class="mb-3">
-            <select asp-for="DeliveryOfficeId" data-placeholder="Sizes" multiple class="form-control chosen-select choices-multiple-remove-button">
-                @foreach (var a in Model.Offices)
-                {
-                    <option value="@a.Id">@a.Name</option>
-                }
-            </select>
+            <div class="dropdown-container">
+                <input type="text" id="dropdown-input" class="dropdown-input" placeholder="Search..." onkeyup="filterDropdown()">
+                <select asp-for="DeliveryOfficeId"  id="dropdown-list" class="dropdown-list">
+                    @foreach (var a in Model.Offices)
+                    {
+                        <option value="@a.Id" class="dropdown-item">@a.Name</option>
+                    }
+                </select>
+            </div>
+
+          
         </div>
     </div>
     <div class="form-group" style="margin-left: 3rem;width: 90%">
@@ -49,4 +54,8 @@
     <link rel="stylesheet" href="~/css/order.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
 
+}
+
+@section Scripts{
+    <script src="~/js/selectOffice.js" asp-append-version="true"></script>
 }
