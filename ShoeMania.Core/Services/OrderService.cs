@@ -59,6 +59,7 @@ namespace ShoeMania.Core.Services
                 Price = (decimal)(model.Shoes.Select(d => d.Price).Sum() +
                 0.05m * model.Shoes.Select(d => d.Price).Sum() + 5)!,
                 PaymentId = model.PaymentId,
+               
 
             };
 

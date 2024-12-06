@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoeMania.Core.Contracts;
+using ShoeMania.Core.Services;
 using ShoeMania.Core.ViewModels.Order;
 using ShoeMania.Data.Models.Enums;
 using ShoeMania.Extensions;
@@ -18,14 +19,16 @@ namespace ShoeMania.Controllers
         private readonly ICustomerService customerService;
         private readonly IOrderService orderService;
         private readonly IPaymentService paymentService;
+        private readonly IDeliveryOfficeService deliveryOfficeService;
 
-        public OrderController(IUserService userService, IShoeService shoeService, ICustomerService customerService, IOrderService orderService, IPaymentService paymentService)
+        public OrderController(IUserService userService, IShoeService shoeService, ICustomerService customerService, IOrderService orderService, IPaymentService paymentService, IDeliveryOfficeService deliveryOfficeService)
         {
             this.userService = userService;
             this.shoeService = shoeService;
             this.customerService = customerService;
             this.orderService = orderService;
             this.paymentService = paymentService;
+            this.deliveryOfficeService = deliveryOfficeService;
         }
 
         [HttpGet]
@@ -52,7 +55,7 @@ namespace ShoeMania.Controllers
                 Shoes = cartShoes!
             };
 
-            
+            model.Offices = await deliveryOfficeService.GetDeliveryOfficeListAsync(); ;
 
             return View(model);
         }
@@ -71,6 +74,8 @@ namespace ShoeMania.Controllers
             {
 
                 model.Shoes = shoeService.GetCartShoes(userName!)!;
+
+               
 
                 string? customerId = await customerService.GetCustomerIdByUserIdAsync(User.GetId()!);
 

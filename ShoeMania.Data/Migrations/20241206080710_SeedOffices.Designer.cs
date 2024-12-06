@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoeMania.Data;
 
@@ -11,9 +12,11 @@ using ShoeMania.Data;
 namespace ShoeMania.Data.Migrations
 {
     [DbContext(typeof(ShoeManiaDbContext))]
-    partial class ShoeManiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241206080710_SeedOffices")]
+    partial class SeedOffices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

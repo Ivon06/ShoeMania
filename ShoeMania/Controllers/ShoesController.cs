@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShoeMania.Core.Contracts;
+using ShoeMania.Core.Extensions;
 using ShoeMania.Core.ViewModels.Shoes;
 using ShoeMania.Extensions;
 using static ShoeMania.Common.NotificationConstants;
@@ -49,6 +50,46 @@ namespace ShoeMania.Controllers
             }
 
 
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> RemoveFromCart(string shoeId)
+        {
+            bool isExists = await shoeService.IsExistsAsync(shoeId);
+
+            if (!isExists)
+            {
+                return RedirectToAction("All");
+            }
+
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var shoes = HttpContext.Session.GetObjectFromJson<List<OrderShoeViewModel>>($"cart{User.GetUsername()}");
+
+            if (shoes!.Count > 0)
+            {
+                var shoeToRemove = shoes.FirstOrDefault(d => d.Id == shoeId);
+                if (shoes.Remove(shoeToRemove!))
+                {
+                    HttpContext.Session.SetObjectAsJson($"cart{User.GetUsername()}", shoes);
+                }
+                else
+                {
+                    HttpContext.Session.SetObjectAsJson($"cart{User.GetUsername()}", shoes);
+
+                    TempData[SuccessMessage] = "Successfully removed from cart";
+
+                    return RedirectToAction("Cart");
+                }
+            }
+
+            TempData[SuccessMessage] = "Successfully removed from cart";
+
+
+            return RedirectToAction("Cart");
         }
 
         //[HttpGet]
