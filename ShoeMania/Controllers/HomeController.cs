@@ -38,17 +38,22 @@ namespace ShoeMania.Controllers
 		//	return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		//}
 
-        public IActionResult Error(int statusCode)
-        {
-            if (statusCode == 400 || statusCode == 404)
-            {
-                return View("Error404");
-            }
+        
 
-            if (statusCode == 401)
-            {
-                return View("Error401");
-            }
+        public IActionResult Error404()
+        {
+            string errorMessage = TempData["ErrorMessage"]?.ToString() ?? "An unexpected error occurred.";
+
+            ViewData["ErrorMessage"] = errorMessage;
+
+            return View();
+        }
+
+        public IActionResult Error500()
+        {
+            string errorMessage = TempData["ErrorMessage"]?.ToString() ?? "An unexpected error occurred.";
+
+            ViewData["ErrorMessage"] = errorMessage;
 
             return View();
         }

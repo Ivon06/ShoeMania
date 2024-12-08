@@ -54,21 +54,35 @@ builder.Services.AddSession(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+
+
+//    app.UseDeveloperExceptionPage();
+//    app.UseMigrationsEndPoint();
+//}
+//else
+//{
+//    app.UseExceptionHandler("/Home/Error/500");
+//    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+
+//    app.UseHsts();
+//}
+
 if (app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/Home/Error500");
 
+    app.UseStatusCodePagesWithRedirects("/Home/Error{0}");
 
-    app.UseDeveloperExceptionPage();
-    app.UseMigrationsEndPoint();
+    //app.UseDeveloperExceptionPage();
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+    app.UseExceptionHandler("/Home/Error500");
 
-    app.UseHsts();
+    app.UseStatusCodePagesWithRedirects("/Home/Error{0}");
 }
-
 
 
 app.UseSession();
