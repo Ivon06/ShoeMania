@@ -63,7 +63,7 @@ namespace ShoeMania.Data.Repository
 
 		public IQueryable<T> GetAll<T>() where T : class
 		{
-			return DbSet<T>().AsQueryable();
+			return  DbSet<T>().AsQueryable();
 		}
 
 		public T? GetById<T>(string id) where T : class
@@ -96,6 +96,9 @@ namespace ShoeMania.Data.Repository
             return DbSet<T>().AsEnumerable();
         }
 
-        
+        public async Task<IQueryable<T>> AllAsync<T>() where T : class
+        {
+            return DbSet<T>().AsQueryable();
+        }
     }
 }

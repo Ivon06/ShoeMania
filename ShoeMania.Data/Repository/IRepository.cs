@@ -8,11 +8,13 @@ namespace ShoeMania.Data.Repository
 {
 	public interface IRepository
 	{
-		IQueryable<T> GetAll<T>() where T : class;
+	IQueryable<T> GetAll<T>() where T : class;
 
 		IEnumerable<T> All<T>() where T : class;
 
-		T? GetById<T>(string id) where T : class;
+        Task<IQueryable<T>> AllAsync<T>() where T : class;
+
+        T? GetById<T>(string id) where T : class;
 
 		Task<T?> GetByIdAsync<T>(string id) where T : class;
 
