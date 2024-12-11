@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MockQueryable;
+using MockQueryable.Moq;
 using Moq;
 using ShoeMania.Core.Contracts;
 using ShoeMania.Core.Services;
@@ -17,7 +18,7 @@ namespace ShoeMania.Tests
     [TestFixture]
     public class ProfileServiceTest
     {
-        private List<User> users = new List<User>()
+        private static List<User> users = new List<User>()
         {
             new User()
             {
@@ -54,22 +55,9 @@ namespace ShoeMania.Tests
         {
             new Customer()
         {
-            UserId = "hdef4003-e7cp-3e14-wk7a-3ci37aso5gd3",
+            UserId = "cf736628-fe9b-4e17-9fe9-cff2c3ce94a1",
             Id = "d1d73a5e-f042-436f-bcca-24b5537988e8",
-            User = new User()
-            {
-                Id = "df733828-jse9b-ks17-99wk9-cxz2c3sk94a1",
-                FirstName = "Ivan",
-                LastName = "Ivanov",
-                Email = "ivanivanov@gmail.com",
-                NormalizedEmail = "IVANIVANOV@GMAIL.COM",
-                UserName = "Ivcho",
-                NormalizedUserName = "IVCHO",
-                City = "Kazanlak",
-                Country = "Bulgaria",
-                Address = "ul. Kokiche 19",
-                ProfilePictureUrl = "image"
-            }
+            User = users[0]
         }
         };
 
@@ -83,7 +71,7 @@ namespace ShoeMania.Tests
             repoMock = new Mock<IRepository>();
             imageServiceMock = new Mock<IImageService>();
             profileService = new ProfileService(imageServiceMock.Object, repoMock.Object);
-            
+
         }
 
         [Test]
@@ -92,7 +80,7 @@ namespace ShoeMania.Tests
             string userId = "cf736628-fe9b-4e17-9fe9-cff2c3ce94a1";
             EditProfileViewModel model = new EditProfileViewModel()
             {
-                
+
                 FirstName = "Georgi",
                 LastName = "Ivanov",
                 Email = "georgiivanov@gmail.com",
@@ -112,7 +100,7 @@ namespace ShoeMania.Tests
             repoMock.Setup(r => r.GetByIdAsync<User>(userId))
             .ReturnsAsync(usersMock.First(r => r.Id == userId));
 
-           var profile = await repoMock.Object.GetByIdAsync<User>(userId);
+            var profile = await repoMock.Object.GetByIdAsync<User>(userId);
 
             Assert.Multiple(() =>
             {
@@ -159,20 +147,22 @@ namespace ShoeMania.Tests
         [Test]
         public async Task GetProfileAsyncShouldReturnCorrectResult()
         {
-            string userId = "df733828-jse9b-ks17-99wk9-cxz2c3sk94a1";
+            string userId = "cf736628-fe9b-4e17-9fe9-cff2c3ce94a1";
             var model = new ProfileViewModel()
             {
-                Email = "ivanivanov@gmail.com",
+                Id = userId,
+                Email = "georgiivanov@gmail.com",
+                Name = "Georgi Ivanov",
                 City = "Kazanlak",
                 Country = "Bulgaria",
-                Address = "ul. Kokiche 19",
+                Address = "ul. Kokiche 14",
                 ProfilePictureUrl = "image"
             };
 
-            var customersMock = customers.BuildMock();
+            var customersMock = customers.AsQueryable();
 
             repoMock.Setup(r => r.GetAll<Customer>())
-                .Returns(customersMock);
+                .Returns(customersMock.BuildMockDbSet().Object);
 
 
             var result = await profileService.GetProfileAsync(userId);
@@ -251,7 +241,7 @@ namespace ShoeMania.Tests
 
             var result = await profileService.GetProfileForEditAsync(userId);
 
-            Assert.That(result,Is.Null);
+            Assert.That(result, Is.Null);
         }
 
     }

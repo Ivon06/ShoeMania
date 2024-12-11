@@ -9,6 +9,7 @@ using ShoeMania.Core.Services;
 using ShoeMania.Core.ViewModels.Order;
 using ShoeMania.Core.ViewModels.Shoes;
 using ShoeMania.Data.Models;
+using ShoeMania.Data.Models.Enums;
 using ShoeMania.Data.Repository;
 using System;
 using System.Collections.Generic;
@@ -234,66 +235,60 @@ namespace ShoeMania.Tests
 
 
         [Test]
-        public async Task CreateOrderAsyncShouldCreateOrder()
+        public async Task CreateOrderAsync_ShouldCreateOrderWithCorrectDetails()
         {
-            var ordersMock = orders.BuildMock();
-
-            repoMock.Setup(r => r.AddAsync(It.IsAny<Order>()))
-        .Callback<Order>(order => ordersMock.ToList().Add(order))
-        .Returns(Task.CompletedTask);
-
-            // Mock SaveChangesAsync
-            repoMock.Setup(r => r.SaveChangesAsync());
-
-            // Mock GetByIdAsync to retrieve the created order
-            repoMock.Setup(r => r.GetByIdAsync<Order>(It.IsAny<string>()))
-                .ReturnsAsync((string id) => ordersMock.FirstOrDefault(o => o.Id == id));
-
-            var orderService = new OrderService(repoMock.Object);
-
-            var payment = new Payment
-            {
-                Id = "ca891e41-3e5a-4abd-ba6b-faae2b318ea3",
-                CustomerId = "d1d73a5e-f042-436f-bcca-24b5537988e8",
-                CardNumber = "0123456789101112",
-                CardHolder = "Test Testov",
-                ExpityDate = DateTime.Now.AddYears(2),
-                SecurityCode = "8972"
-            };
-
-            await repoMock.Object.AddAsync(payment);
-            await repoMock.Object.SaveChangesAsync();
-
+            // Arrange
+            string customerId = "d1d73a5e-f042-436f-bcca-24b5537988e8";
             var model = new OrderFormModel
             {
                 DeliveryOfficeId = "000d8e82-bda8-4c3a-abc3-34048f3b1bda",
-                City = "Kazanlak",
-                PaymentId = payment.Id,
+                PaymentId = "test-payment-id",
                 Shoes = new List<OrderShoeViewModel>
         {
-            new OrderShoeViewModel
-            {
-                Id = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4",
-                Name = "Test Shoe",
-                Description = "test description for shoe",
-                Price = 13.3m,
-                ShoeImageUrl = "null",
-                Size = 40
-            }
+            new OrderShoeViewModel { Id = "shoe1", Price = 50.0m, Size = 42 },
+            new OrderShoeViewModel { Id = "shoe2", Price = 70.0m, Size = 44 }
         }
             };
 
-            string customerId = "d1d73a5e-f042-436f-bcca-24b5537988e8";
+            var addedOrders = new List<Order>();
+            var repoMock = new Mock<IRepository>();
+
+            // Mock AddAsync to capture added order
+            repoMock.Setup(r => r.AddAsync(It.IsAny<Order>()))
+                .Callback<Order>(order => addedOrders.Add(order))
+                .Returns(Task.CompletedTask);
+
+            // Mock SaveChangesAsync
+            repoMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
+
+            var orderService = new OrderService(repoMock.Object);
 
             // Act
             var result = await orderService.CreateOrderAsync(model, customerId);
 
-            var order = await orderService.GetOrderByIdAsync(result);
-
             // Assert
-            Assert.That(order, Is.Not.Null);
-            
+            Assert.That(addedOrders.Count, Is.EqualTo(1)); // Ensure one order was added
+            var createdOrder = addedOrders.First();
+
+            // Verify order properties
+            Assert.That(createdOrder.CustomerId, Is.EqualTo(customerId));
+            Assert.That(createdOrder.Status, Is.EqualTo(OrderStatusEnum.Waiting.ToString()));
+            Assert.That(createdOrder.DeliveryOfficeId, Is.EqualTo(model.DeliveryOfficeId));
+            Assert.That(createdOrder.PaymentId, Is.EqualTo(model.PaymentId));
+            Assert.That(createdOrder.Price, Is.EqualTo((decimal)(50.0m + 70.0m + (0.05m * (50.0m + 70.0m)) + 5.0m)));
+
+            // Verify associated OrderShoe objects
+            Assert.That(createdOrder.OrderShoe.Count, Is.EqualTo(model.Shoes.Count));
+            foreach (var shoe in model.Shoes)
+            {
+                Assert.That(createdOrder.OrderShoe.Any(os => os.ShoeId == shoe.Id && os.ShoeSize == shoe.Size), Is.True);
+            }
+
+            // Verify repository interactions
+            repoMock.Verify(r => r.AddAsync(It.IsAny<Order>()), Times.Once);
+            repoMock.Verify(r => r.SaveChangesAsync(), Times.Once);
         }
+
 
         [Test]
         public async Task EditDeliveryTimeForOrderAsyncShouldEditDeliveryTime()
