@@ -45,13 +45,14 @@ namespace ShoeMania.Core.Services
 
             if (!string.IsNullOrEmpty(model.SearchString))
             {
-                string wildCard = $"%{model.SearchString.ToLower()}%";
+                string searchString = model.SearchString.ToLower();
 
                 shoesQuery = shoesQuery
-                    .Where(d => EF.Functions.Like(d.Name, wildCard) ||
-                                EF.Functions.Like(d.Description, wildCard));
-
+                    .Where(d => d.Name.ToLower().Contains(searchString) ||
+                                d.Description.ToLower().Contains(searchString));
             }
+
+
 
             IEnumerable<ShoeViewModel> shoeModel = await shoesQuery
                 .Where(d => d.IsActive)

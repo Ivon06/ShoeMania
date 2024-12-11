@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable;
+using MockQueryable.Moq;
 using Moq;
 using ShoeMania.Core.Contracts;
 using ShoeMania.Core.Services;
@@ -20,21 +21,7 @@ namespace ShoeMania.Tests
     [TestFixture]
     public class ShoeServiceTest
     {
-        private List<Shoe> shoes = new List<Shoe>()
-        {
-            new Shoe()
-            {
-                Id = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4",
-                Name = "Test Shoe",
-                CategoryId = "08851195-d523-418f-b272-37c3d91544df",
-                Description = "test descritpion for shoe",
-                Price = 13.3m,
-                ShoeUrlImage = "image",
-                IsActive = true
-            }
-        };
-
-        private List<Size> sizes = new List<Size>()
+        private static List<Size> sizes = new List<Size>()
             {
                 new Size()
                 {
@@ -64,7 +51,7 @@ namespace ShoeMania.Tests
 
             };
 
-        private List<Category> categories = new List<Category>()
+        private static List<Category> categories = new List<Category>()
             {
                 new Category()
                 {
@@ -89,13 +76,30 @@ namespace ShoeMania.Tests
 
             };
 
-        private List<SizeShoe> sizesShoe = new List<SizeShoe>()
+        private static List<SizeShoe> sizesShoe = new List<SizeShoe>()
             {
                 new SizeShoe()
                 {
                     SizeId = 1,
-                    ShoeId = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4"
+                    ShoeId = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4",
+                    Size = sizes[0]
                 }
+        };
+
+        private List<Shoe> shoes = new List<Shoe>()
+        {
+            new Shoe()
+            {
+                Id = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4",
+                Name = "Test Shoe",
+                CategoryId = "08851195-d523-418f-b272-37c3d91544df",
+                Description = "test descritpion for shoe",
+                Price = 13.3m,
+                ShoeUrlImage = "image",
+                IsActive = true,
+                Category = categories[0],
+                SizeShoe = sizesShoe
+            }
         };
 
         private Mock<IRepository> repoMock;
@@ -169,7 +173,20 @@ namespace ShoeMania.Tests
 
             };
 
+            repoMock.Setup(r => r.AddAsync(It.IsAny<Shoe>()))
+       .Callback<Shoe>(shoe => shoes.Add(shoe))
+       .Returns(Task.CompletedTask);
+
+            repoMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
+
+           
+            repoMock.Setup(r => r.GetByIdAsync<Shoe>(It.IsAny<string>()))
+                .ReturnsAsync((string id) => shoes.FirstOrDefault(sh => sh.Id == id));
+
+
             var result = await shoeService.AddAsync(model);
+
+
 
             var expectedResult = await repoMock.Object.GetByIdAsync<Shoe>( result);
 
@@ -183,10 +200,10 @@ namespace ShoeMania.Tests
         {
             string shoeId = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4";
 
-            var shoesMock = shoes.BuildMock();
+            var shoesMock = shoes.AsQueryable();
 
             repoMock.Setup(r => r.GetAll<Shoe>())
-                .Returns(shoesMock);
+               .Returns(shoesMock.BuildMockDbSet().Object);
 
             var result = await shoeService.GetDetailsForShoeAsync(shoeId);
 
@@ -501,10 +518,10 @@ namespace ShoeMania.Tests
         {
             string shoeId = "9cb6c9ed-4bdc-4447-8aff-df120cc658a4";
 
-            var shoesMock = shoes.BuildMock();
+            var shoesMock = shoes.AsQueryable();
 
             repoMock.Setup(r => r.GetAll<Shoe>())
-               .Returns(shoesMock);
+               .Returns(shoesMock.BuildMockDbSet().Object);
 
             var result = await shoeService.GetShoeForDeleteAsync(shoeId);
 
