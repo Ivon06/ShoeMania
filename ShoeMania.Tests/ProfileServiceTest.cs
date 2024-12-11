@@ -209,7 +209,7 @@ namespace ShoeMania.Tests
                 Country = "Bulgaria",
                 Address = "ul. Al. Batenberg 15",
                 Phone = "0889864831",
-                ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607793/FootTrapProject/5685_jb2zs0.jpg"
+                ProfilePictureUrl = "https://res.cloudinary.com/ddtdhqc02/image/upload/v1733932932/ShoeManiaProject/jbebohqxeunabj8o4wgv.webp"
             };
 
             var usersMock = users.BuildMock();

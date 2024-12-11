@@ -43,7 +43,7 @@ namespace ShoeMania.Core.Services
 
             if (model.ProfilePicture != null)
             {
-                user.ProfilePictureUrl = await imageService.UploadImageToUser(model.ProfilePicture, "FootTrapProject", user);
+                user.ProfilePictureUrl = await imageService.UploadImageToUser(model.ProfilePicture, "ShoeManiaProject", user);
             }
 
             await repo.SaveChangesAsync();

@@ -159,7 +159,7 @@ namespace ShoeMania.Core.Services
 
             if (shoe.ShoeUrlImage != null)
             {
-                model.ShoeUrlImage = await imageService.UploadImageToShoe(shoe.ShoeUrlImage!, "FootTrapProject", model);
+                model.ShoeUrlImage = await imageService.UploadImageToShoe(shoe.ShoeUrlImage!, "ShoeManiaProject", model);
             }
 
             if (shoe.CategoryId != null)

@@ -9,5 +9,10 @@ namespace ShoeMania.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult WhyUs()
+        {
+            return View();
+        }
     }
 }

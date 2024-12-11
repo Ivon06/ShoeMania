@@ -34,7 +34,7 @@ namespace ShoeMania.Data.Configurations
                 City = "Kazanlak",
                 Country = "Bulgaria",
                 Address = "ul. Stefan Stambolov 20",
-                ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607775/FootTrapProject/2150771123_oytfrj.jpg"
+                ProfilePictureUrl = "https://res.cloudinary.com/ddtdhqc02/image/upload/v1733932830/ShoeManiaProject/m671iwtywviua5v43h7i.webp"
             };
 
             user.PasswordHash = passHasher.HashPassword(user, "123456");
@@ -52,7 +52,7 @@ namespace ShoeMania.Data.Configurations
                 City = "Kazanlak",
                 Country = "Bulgaria",
                 Address = "ul. Kokiche 14",
-                ProfilePictureUrl = "https://res.cloudinary.com/dwocfg6qw/image/upload/v1703607775/FootTrapProject/2150771123_oytfrj.jpg"
+                ProfilePictureUrl = "https://res.cloudinary.com/ddtdhqc02/image/upload/v1733932932/ShoeManiaProject/jbebohqxeunabj8o4wgv.webp"
             };
 
             user2.PasswordHash = passHasher.HashPassword(user2, "123456");
